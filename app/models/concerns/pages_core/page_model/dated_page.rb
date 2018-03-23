@@ -11,6 +11,7 @@ module PagesCore
 
         scope :upcoming, -> { where("ends_at > ?", Time.zone.now) }
         scope :past, -> { where("ends_at <= ?", Time.zone.now) }
+        scope :with_dates, -> { where.not(starts_at: nil) }
       end
 
       module ClassMethods

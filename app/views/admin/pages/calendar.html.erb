@@ -1,0 +1,42 @@
+<%
+  self.page_title = "Calendar"
+  self.page_description = "Calendar"
+
+  if PagesCore.config.localizations?
+    self.page_description_links = 'In ' + PagesCore.config.locales.map{ |l, n| link_to_unless_current n, calendar_admin_pages_path(l) }.join(link_separator)
+  end
+%>
+
+<% content_for :sidebar do %>
+  <h2>New entry</h2>
+  <p>
+    <%= form_tag new_admin_page_path, method: :get do %>
+      In <%= select_tag('parent',
+                        options_for_select(@parents.map{|p| [page_name(p, include_parents: true).gsub("&raquo;", "»"), p.id] })) %>
+      <%= submit_tag "Go", name: nil %>
+    <% end %>
+  </p>
+<% end %>
+
+<% if @pages.any? %>
+  <table class="list calendar-item-list">
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Published</th>
+      <th>Section</th>
+    </tr>
+    <% @pages.each do |page| %>
+      <%= render(partial: "list_item",
+                 locals: { page: page, date: true }) %>
+    <% end %>
+  </table>
+
+  <%= will_paginate @pages %>
+<% else %>
+  <div class="content">
+    <p>
+      No calendar items have been posted yet.
+    </p>
+  </div>
+<% end %>
