@@ -81,6 +81,7 @@ Rails.application.routes.draw do
       resources :pages do
         collection do
           get "news(/:year(/:month)(/page/:page))", action: :news, as: :news
+          get "calendar"
           get "deleted"
           get "new_news" # TODO: Should be refactored
         end

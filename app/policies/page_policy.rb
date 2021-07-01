@@ -9,6 +9,10 @@ class PagePolicy < Policy
     true
   end
 
+  def calendar?
+    index?
+  end
+
   def deleted?
     index?
   end
